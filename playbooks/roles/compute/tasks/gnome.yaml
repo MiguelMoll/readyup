@@ -20,3 +20,26 @@
     value: "['/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/']"
     state: present
   become: "{{ user }}"
+
+- name: gnome | tmp term prefs
+  copy:
+    src: roles/compute/files/terminal-profile.dconf
+    dest: "{{ temp_dir }}/terminal-profile.dconf"
+
+- name: gnome | load term prefs
+  shell: "dconf load /org/gnome/terminal/legacy/profiles:/:e0b281e6-3542-4143-9131-b78559cdaf68/ < {{ temp_dir }}/terminal-profile.dconf"
+  become: "{{ user }}"
+
+- name: gnome | default term prefs
+  dconf:
+    key: "/org/gnome/terminal/legacy/profiles:/default"
+    value: "'e0b281e6-3542-4143-9131-b78559cdaf68'"
+    state: present
+  become: "{{ user }}"
+
+- name: gnome | list term prefs
+  dconf:
+    key: "/org/gnome/terminal/legacy/profiles:/list"
+    value: "['e0b281e6-3542-4143-9131-b78559cdaf68']"
+    state: present
+  become: "{{ user }}"
