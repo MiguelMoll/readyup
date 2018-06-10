@@ -1,0 +1,24 @@
+---
+
+- name: create temp dir
+  file: 
+    path: "{{ temp_dir }}"
+    state: directory
+
+- name: install software
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ software }} + {{ gnome_software }}"
+
+- name: install chrome
+  package:
+    name: https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm
+    state: present
+
+- include_tasks: "{{ item }}"
+  with_items:
+    - hackfont/linux.yaml
+    - vscode/linux.yaml
+    - nvim.yaml
+    - gnome.yaml

@@ -1,0 +1,95 @@
+---
+
+- import_tasks: linux.yaml
+  when: ansible_os_family == "RedHat"
+
+
+# misc task that should be setup afterwards
+
+- name: fish | change shell
+  user:
+    name: "{{ user }}"
+    shell: /usr/bin/fish
+
+- name: fish | set config
+  copy:
+    src: roles/compute/files/config.fish
+    dest: "{{ home_dir }}/.config/fish/config.fish"
+  become: "{{ user }}"
+
+- name: fish | get omf
+  get_url:
+    url: https://raw.githubusercontent.com/oh-my-fish/oh-my-fish/master/bin/install
+    dest: "{{ temp_dir }}/omfinstall"
+    mode: 0755
+
+- name: fish | install omf
+  command: "/usr/bin/fish {{ temp_dir }}/omfinstall --noninteractive --yes --path=~/.local/share/omf --config=~/.config/omf" 
+  become: "{{ user }}"
+
+- name: fish | omf agnoster
+  shell: "{{ item }}"
+  with_items:
+    - '/usr/bin/fish -c "omf install agnoster"'
+    - '/usr/bin/fish -c "omf theme agnoster"'
+  become: "{{ user }}"
+
+# Go
+
+- name: go | install
+  unarchive:
+    src: "{{ go_url }}"
+    dest: /usr/local/bin
+    remote_src: yes
+
+- name: go | gopath
+  file:
+    path: "{{ home_dir }}/code/go/bin"
+    state: directory
+  become: "{{ user }}"
+
+## End Go
+
+## Git
+- name: git | email
+  git_config:
+    name: user.email
+    scope: global
+    value: miguel.moll@gmail.com
+  become: "{{ user }}"
+
+- name: git | name
+  git_config:
+    name: user.name
+    scope: global
+    value: Miguel Moll
+  become: "{{ user }}"
+
+- name: download diff-so-fancy
+  get_url:
+    url: https://raw.githubusercontent.com/so-fancy/diff-so-fancy/master/third_party/build_fatpack/diff-so-fancy
+    dest: /usr/local/bin/diff-so-fancy
+    mode: 0755
+    owner: "{{ user }}"
+
+- name: git | diff configs
+  git_config:
+    name: "{{ item.name }}"
+    scope: global
+    value: "{{ item.value }}"
+  become: "{{ user }}"
+  with_items:
+    - { name: 'core.pager', value: 'diff-so-fancy | less --tabs=4 -RFX' }
+    - { name: 'color.ui', value: 'true' }
+    - { name: 'color.diff-highlight.oldNormal', value: 'red bold' }
+    - { name: 'color.diff-highlight.oldHighlight', value: 'red bold 52' }
+    - { name: 'color.diff-highlight.newNormal', value: 'green bold' }
+    - { name: 'color.diff-highlight.newHighlight', value: 'green bold 22' }
+    - { name: 'color.diff.meta', value: 'yellow' }
+    - { name: 'color.diff.frag', value: 'magenta bold' }
+    - { name: 'color.diff.commit', value: 'yellow bold' }
+    - { name: 'color.diff.old', value: 'red bold' }
+    - { name: 'color.diff.new', value: 'green bold' }
+    - { name: 'color.diff.whitespace', value: 'red reverse' }
+
+## End Git

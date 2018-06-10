@@ -1,0 +1,21 @@
+---
+- name: hackfont | create .fonts dir
+  file: 
+    path: "{{ home_dir }}/.fonts"
+    state: directory
+  become: "{{ user }}"
+
+- name: hackfont | download
+  unarchive:
+    src: "{{ hack_url }}"
+    dest: "{{ temp_dir }}"
+    remote_src: yes
+
+- name: hackfont | copy to .fonts
+  copy: 
+    src: "{{ temp_dir }}/ttf/"
+    dest: "{{ home_dir }}/.fonts/"
+  become: "{{ user }}"
+
+- name: hackfont | update cache
+  command: /usr/bin/fc-cache

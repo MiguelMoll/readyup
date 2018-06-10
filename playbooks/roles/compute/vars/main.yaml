@@ -1,0 +1,24 @@
+---
+
+# common software
+software:
+  - tmux
+  - vim
+  - neovim
+  - git
+  - htop
+  - nmon
+  - tig
+  - ripgrep
+
+gnome_software:
+  - gnome-tweaks
+  - python2-psutil # used for dconf
+  - fish
+  - chrome-gnome-shell # for gnome extensions, dash-to-dock
+
+home_dir: /home/radioact1ve
+temp_dir: /tmp/readyup
+
+hack_url: "https://github.com/source-foundry/Hack/releases/download/v3.003/Hack-v3.003-ttf.zip"
+go_url: "https://dl.google.com/go/go1.10.3.linux-amd64.tar.gz"

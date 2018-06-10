@@ -1,0 +1,16 @@
+---
+
+- name: vs code | install rpm key
+  rpm_key:
+    state: present
+    key: https://packages.microsoft.com/keys/microsoft.asc
+
+- name: vs code | setup repo
+  copy:
+    src: roles/compute/files/vscode.repo
+    dest: /etc/yum.repos.d/vscode.repo
+
+- name: vs code | install
+  package:
+    name: code
+    state: present
