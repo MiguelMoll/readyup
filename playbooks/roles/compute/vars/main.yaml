@@ -10,12 +10,14 @@ software:
   - nmon
   - tig
   - ripgrep
+  - fish
+  - vlc
 
-gnome_software:
+linux_software:
   - gnome-tweaks
   - python2-psutil # used for dconf
-  - fish
   - chrome-gnome-shell # for gnome extensions, dash-to-dock
+  - fuse-exfat # needs rpmfusion
 
 home_dir: /home/radioact1ve
 temp_dir: /tmp/readyup

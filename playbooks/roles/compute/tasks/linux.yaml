@@ -5,13 +5,21 @@
     path: "{{ temp_dir }}"
     state: directory
 
-- name: install software
+- name: software | install rpmfusion
+  package: 
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - "https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-{{ ansible_distribution_version }}.noarch.rpm"
+    - "https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{{ ansible_distribution_version }}.noarch.rpm"
+
+- name: software | install!
   package:
     name: "{{ item }}"
     state: present
-  with_items: "{{ software }} + {{ gnome_software }}"
+  with_items: "{{ software }} + {{ linux_software }}"
 
-- name: install chrome
+- name: software | install chrome
   package:
     name: https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm
     state: present
