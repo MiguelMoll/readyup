@@ -1,0 +1,93 @@
+call plug#begin('~/.local/share/nvim/plugged')
+
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'crusoexia/vim-monokai'
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'terryma/vim-multiple-cursors'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'jiangmiao/auto-pairs'
+Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
+
+call plug#end()
+
+set nocompatible
+syntax on
+colorscheme monokai
+set t_Co=256
+"set termguicolors
+set cursorline
+set mouse=a
+set ignorecase
+set autoread
+set incsearch
+set hlsearch
+set nofoldenable
+set noswapfile
+set number
+set relativenumber
+set completeopt-=preview
+set clipboard+=unnamedplus
+set wildignore+=*/.git/*
+
+let mapleader = "\<Space>"
+nnoremap <Leader><Space> :w<CR>
+nnoremap <Leader>q :x<CR>
+nnoremap <Leader>a :wa<CR>
+
+" Splits
+" Using backslash since it's the same key as the pipe character.
+" Associate pipe with vertical split; minus with horizontal split.
+set splitright
+set splitbelow
+nmap <Leader>\ :vnew<CR>
+nmap <Leader>- :new<CR>
+
+" Easier split navigation
+nnoremap <silent> <A-h> :TmuxNavigateLeft<cr>
+nnoremap <silent> <A-j> :TmuxNavigateDown<cr>
+nnoremap <silent> <A-k> :TmuxNavigateUp<cr>
+nnoremap <silent> <A-l> :TmuxNavigateRight<cr>
+
+" Keep search matches in the middle of the window.
+nnoremap n nzzzv
+nnoremap N Nzzzv
+
+" Clear search results.
+noremap <silent> <leader>, :noh<cr>:call clearmatches()<cr>
+
+" Save when losing focus
+au BufLeave * wa
+
+" deoplete
+let g:deoplete#enable_at_startup = 1
+
+" NERDTree
+map <F2> :NERDTreeToggle<CR>
+
+" Ctrl P
+let g:ctrlp_map = '<Leader>p'
+let g:ctrlp_user_command = 'rg %s --files --glob ""'
+let g:ctrlp_use_caching = 0
+
+" Airline
+let g:airline#extensions#tabline#enabled = 1
+let g:airline_powerline_fonts=1
+"let g:airline_theme="wombat"
+let g:airline_theme="powerlineish"
+
+" vim-go
+au FileType go nmap <Leader>i <Plug>(go-implements)
+au FileType go nmap <Leader>gd <Plug>(go-doc)
+au FileType go nmap <Leader>d <Plug>(go-def)
+au FileType go nmap <leader>e :GoErrCheck<CR>
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_structs = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_build_constraints = 1
+let g:go_fmt_command = "goimports"
+let g:go_auto_type_info = 1
