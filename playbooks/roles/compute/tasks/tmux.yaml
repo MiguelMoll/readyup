@@ -1,0 +1,13 @@
+---
+
+- name: tmux | download tpm
+  git:
+    repo: https://github.com/tmux-plugins/tpm 
+    dest: "{{ home_dir }}/.tmux/plugins/tpm"
+  become: "{{ user }}"
+
+- name: tmux | setup tmux.conf
+  copy:
+    src: roles/compute/files/tmux.conf
+    dest: "{{ home_dir }}/.tmux.conf"
+  become: "{{ user }}"

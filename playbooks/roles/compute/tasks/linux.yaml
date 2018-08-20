@@ -29,7 +29,8 @@
 
 - include_tasks: "{{ item }}"
   with_items:
-    - hackfont/linux.yaml
-    - vscode/linux.yaml
-    - nvim.yaml
-    - gnome.yaml
+          #    - hackfont/linux.yaml
+          #    - vscode/linux.yaml
+          #    - gnome.yaml
+          #    - nvim.yaml
+    - tmux.yaml
