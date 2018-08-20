@@ -1,16 +1,68 @@
 ---
 
+- name: nvim | install deps
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - ninja-build
+    - libtool
+    - autoconf
+    - automake
+    - cmake
+    - gcc
+    - gcc-c++
+    - make
+    - pkgconfig
+    - unzip
+
+- name: nvim | download source
+  git:
+    repo: 'https://github.com/neovim/neovim.git'
+    dest: "{{ home_dir }}/code/neovim"
+  become: "{{ user }}"
+
+- name: nvim | build neovim
+  command: make CMAKE_BUILD_TYPE=Release
+  args:
+    chdir: "{{ home_dir }}/code/neovim"
+  become: "{{ user }}"
+
+- name: nvim | install neovim
+  command: make install
+  args:
+    chdir: "{{ home_dir }}/code/neovim"
+
+- name: nvim | install pip3 neovim
+  pip:
+    name: neovim
+    executable: pip3
+
 - name: nvim | create dirs
   file:
     path: "{{ item }}"
     state: directory
   with_items:
-    - "{{ home_dir }}/.config/nvim/autoload"
+    - "{{ home_dir }}/.local/share/nvim/site/autoload"
+    - "{{ home_dir }}/.config/nvim"
   become: "{{ user }}"
 
 - name: nvim | download vim-plug
   get_url:
     url: https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-    dest: "{{ home_dir }}/.config/nvim/autoload"
+    dest: "{{ home_dir }}/.local/share/nvim/site/autoload/plug.vim"
     mode: 0644
+  become: "{{ user }}"
+
+- name: nvim | copy config
+  copy:
+    src: roles/compute/files/init.vim
+    dest: "{{ home_dir }}/.config/nvim/init.vim"
+  become: "{{ user }}"
+
+- name: nvim | install plugins
+  command: "nvim {{ item }} +qall"
+  with_items:
+    - "+PlugInstall"
+    - "+UpdateRemotePlugins"
   become: "{{ user }}"

@@ -1,9 +1,12 @@
 ---
 
-- name: create temp dir
+- name: create various dirs
   file: 
-    path: "{{ temp_dir }}"
+    path: "{{ item }}"
     state: directory
+  with_items:
+    - "{{ temp_dir }}"
+    - "{{ home_dir }}/code"
 
 - name: software | install rpmfusion
   package: 

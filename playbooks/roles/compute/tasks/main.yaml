@@ -3,7 +3,6 @@
 - import_tasks: linux.yaml
   when: ansible_os_family == "RedHat"
 
-
 # configure some software regardless of platform
 
 - name: fish | change shell
@@ -42,7 +41,7 @@
     dest: /usr/local/bin
     remote_src: yes
 
-- name: go | gopath
+- name: go | create gopath
   file:
     path: "{{ home_dir }}/code/go/bin"
     state: directory

@@ -17,8 +17,8 @@ call plug#end()
 set nocompatible
 syntax on
 colorscheme monokai
-set t_Co=256
-"set termguicolors
+"set t_Co=256
+set termguicolors
 set cursorline
 set mouse=a
 set ignorecase

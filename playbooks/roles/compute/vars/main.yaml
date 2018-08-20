@@ -4,7 +4,6 @@
 software:
   - tmux
   - vim
-  - neovim
   - git
   - htop
   - nmon
@@ -18,6 +17,7 @@ linux_software:
   - python2-psutil # used for dconf
   - chrome-gnome-shell # for gnome extensions, dash-to-dock
   - fuse-exfat # needs rpmfusion
+  - python3-pip
 
 home_dir: /home/radioact1ve
 temp_dir: /tmp/readyup
