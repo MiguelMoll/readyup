@@ -1,9 +1,9 @@
 call plug#begin('~/.local/share/nvim/plugged')
 
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries', 'for': 'go' }
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'zchee/deoplete-go', { 'do': 'make'}
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins','for': 'go'}
+Plug 'zchee/deoplete-go', { 'do': 'make', 'for': 'go'}
 Plug 'crusoexia/vim-monokai'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'terryma/vim-multiple-cursors'
@@ -12,6 +12,9 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'jiangmiao/auto-pairs'
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
+Plug 'rust-lang/rust.vim', { 'for': 'rust' }
+Plug 'vim-syntastic/syntastic', { 'for': 'rust' }
+Plug 'racer-rust/vim-racer', { 'for': 'rust' }
 
 call plug#end()
 
@@ -115,3 +118,8 @@ let g:go_highlight_build_constraints = 1
 let g:go_fmt_command = "goimports"
 let g:go_auto_type_info = 1
 let g:go_auto_sameids = 1
+
+" rust
+let g:rustfmt_autosave = 1
+au FileType rust nmap <leader>d <Plug>(rust-def)
+au FileType rust nmap <leader>r :RustRun<CR>
