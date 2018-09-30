@@ -23,4 +23,4 @@ home_dir: /home/radioact1ve
 temp_dir: /tmp/readyup
 
 hack_url: "https://github.com/source-foundry/Hack/releases/download/v3.003/Hack-v3.003-ttf.zip"
-go_url: "https://dl.google.com/go/go1.10.3.linux-amd64.tar.gz"
+go_url: "https://dl.google.com/go/go1.11.linux-amd64.tar.gz"
