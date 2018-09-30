@@ -7,6 +7,8 @@
   with_items:
     - "{{ temp_dir }}"
     - "{{ home_dir }}/code"
+    - "{{ home_dir}}/.config/fish"
+  become: "{{ user }}"
 
 - name: software | install rpmfusion
   package: 
@@ -29,8 +31,8 @@
 
 - include_tasks: "{{ item }}"
   with_items:
-          #    - hackfont/linux.yaml
-          #    - vscode/linux.yaml
-          #    - gnome.yaml
-          #    - nvim.yaml
+    - hackfont/linux.yaml
+    - vscode/linux.yaml
+    - gnome.yaml
+    - nvim.yaml
     - tmux.yaml
