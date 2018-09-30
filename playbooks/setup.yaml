@@ -4,7 +4,7 @@
   connection: local
   become: yes
   vars:
-    user: radioact1ve
+    user: "{{ lookup('env', 'USER') }}"
 
   roles:
     - compute

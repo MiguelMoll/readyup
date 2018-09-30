@@ -19,7 +19,7 @@ linux_software:
   - fuse-exfat # needs rpmfusion
   - python3-pip
 
-home_dir: /home/radioact1ve
+home_dir: "/home/{{ user }}"
 temp_dir: /tmp/readyup
 
 hack_url: "https://github.com/source-foundry/Hack/releases/download/v3.003/Hack-v3.003-ttf.zip"
