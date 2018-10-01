@@ -18,6 +18,7 @@ linux_software:
   - chrome-gnome-shell # for gnome extensions, dash-to-dock
   - fuse-exfat # needs rpmfusion
   - python3-pip
+  - xsel
 
 home_dir: "/home/{{ user }}"
 temp_dir: /tmp/readyup
