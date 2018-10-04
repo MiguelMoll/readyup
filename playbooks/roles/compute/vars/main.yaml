@@ -11,6 +11,7 @@ software:
   - ripgrep
   - fish
   - vlc
+  - jq
 
 linux_software:
   - gnome-tweaks
