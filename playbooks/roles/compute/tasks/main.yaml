@@ -49,6 +49,8 @@
 
 ## End Go
 
+- include_tasks: rust.yaml
+
 ## Git
 - name: git | email
   git_config:

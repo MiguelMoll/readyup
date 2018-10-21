@@ -1,0 +1,21 @@
+---
+
+- name: rust | download rustup
+  get_url:
+    url: https://sh.rustup.rs
+    dest: "{{ temp_dir }}/rustup.sh"
+    mode: 0744
+  become: "{{ user }}"
+
+- name: rust | install rustup
+  shell: "{{ temp_dir }}/rustup.sh -y"
+  become: "{{ user }}"
+
+- name: rust | install rust software
+  shell: "{{ cargo_bin_dir }}/{{ item }}"
+  with_items:
+    - "rustup toolchain add nightly"
+    - "rustup component add rust-src"
+    - "cargo +nightly install racer"
+    - "cargo install bat"
+  become: "{{ user }}"
