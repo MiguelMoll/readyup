@@ -16,6 +16,7 @@
   with_items:
     - "rustup toolchain add nightly"
     - "rustup component add rust-src"
+    - "rustup component add rustfmt-preview"
     - "cargo +nightly install racer"
     - "cargo install bat"
   become: "{{ user }}"
