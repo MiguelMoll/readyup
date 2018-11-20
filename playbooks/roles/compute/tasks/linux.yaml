@@ -10,29 +10,19 @@
     - "{{ home_dir}}/.config/fish"
   become: "{{ user }}"
 
-- name: software | install rpmfusion
-  package: 
-    name: "{{ item }}"
-    state: present
-  with_items:
-    - "https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-{{ ansible_distribution_version }}.noarch.rpm"
-    - "https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{{ ansible_distribution_version }}.noarch.rpm"
-
 - name: software | install!
   package:
     name: "{{ item }}"
     state: present
-  with_items: "{{ software }} + {{ linux_software }}"
+  with_items: "{{ common_software }} + {{ ansible_os_family | lower }}_software"
 
-- name: software | install chrome
-  package:
-    name: https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm
-    state: present
+- import_tasks: "redhat.yaml"
+  when: ansible_os_family == "Redhat"
 
 - include_tasks: "{{ item }}"
   with_items:
     - hackfont/linux.yaml
-    - vscode/linux.yaml
+    - vscode/vscode.yaml
     - gnome.yaml
-    - nvim.yaml
+    - nvim/nvim.yaml
     - tmux.yaml

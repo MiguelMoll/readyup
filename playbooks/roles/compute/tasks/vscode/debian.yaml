@@ -1,0 +1,5 @@
+---
+
+- name: vs code | install deb file
+  apt:
+    deb: https://az764295.vo.msecnd.net/stable/bc24f98b5f70467bc689abf41cc5550ca637088e/code_1.29.1-1542309157_amd64.deb

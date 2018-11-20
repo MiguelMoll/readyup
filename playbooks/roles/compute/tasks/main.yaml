@@ -1,7 +1,8 @@
 ---
 
 - import_tasks: linux.yaml
-  when: ansible_os_family == "RedHat"
+  when: ansible_os_family == "RedHat" or ansible_os_family == "Debian"
+
 
 # configure some software regardless of platform
 
@@ -40,13 +41,13 @@
     src: "{{ go_url }}"
     dest: /usr/local/bin
     remote_src: yes
-
+  
 - name: go | create gopath
   file:
     path: "{{ home_dir }}/code/go/bin"
     state: directory
   become: "{{ user }}"
-
+  
 ## End Go
 
 - include_tasks: rust.yaml
@@ -58,7 +59,7 @@
     scope: global
     value: miguel.moll@gmail.com
   become: "{{ user }}"
-
+  
 - name: git | name
   git_config:
     name: user.name
@@ -66,13 +67,20 @@
     value: Miguel Moll
   become: "{{ user }}"
 
+- name: git | editor
+  git_config:
+    name: core.editor
+    scope: global
+    value: nvim
+  become: "{{ user }}"
+  
 - name: download diff-so-fancy
   get_url:
     url: https://raw.githubusercontent.com/so-fancy/diff-so-fancy/master/third_party/build_fatpack/diff-so-fancy
     dest: /usr/local/bin/diff-so-fancy
     mode: 0755
     owner: "{{ user }}"
-
+  
 - name: git | diff configs
   git_config:
     name: "{{ item.name }}"
@@ -92,5 +100,5 @@
     - { name: 'color.diff.old', value: 'red bold' }
     - { name: 'color.diff.new', value: 'green bold' }
     - { name: 'color.diff.whitespace', value: 'red reverse' }
-
+  
 ## End Git

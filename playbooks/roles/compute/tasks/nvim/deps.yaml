@@ -1,0 +1,36 @@
+---
+
+- name: nvim | install deps for Redhat
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - ninja-build
+    - libtool
+    - autoconf
+    - automake
+    - cmake
+    - gcc
+    - gcc-c++
+    - make
+    - pkgconfig
+    - unzip
+  when: ansible_os_family == "RedHat"
+
+- name: nvim | install deps for Debian
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - gettext 
+    - libtool-bin
+    - ninja-build
+    - libtool
+    - autoconf
+    - automake
+    - cmake
+    - g++
+    - make
+    - pkg-config
+    - unzip
+  when: ansible_os_family == "Debian"

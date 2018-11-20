@@ -1,7 +1,6 @@
 ---
 
-# common software
-software:
+common_software:
   - tmux
   - vim
   - git
@@ -12,19 +11,26 @@ software:
   - fish
   - vlc
   - jq
-
-linux_software:
-  - gnome-tweaks
-  - python2-psutil # used for dconf
-  - chrome-gnome-shell # for gnome extensions, dash-to-dock
-  - fuse-exfat # needs rpmfusion
   - python3-pip
   - xsel
+
+gnome_software:
+  - gnome-tweaks
+  - chrome-gnome-shell # for gnome extensions, dash-to-dock
+
+redhat_software:
+  - python2-psutil # used for dconf
+  - fuse-exfat # needs rpmfusion
   - zlib-devel
+
+debian_software:
+  - python-psutil # used for dconf
+  - zlib1g-dev
+  - build-essential
 
 home_dir: "/home/{{ user }}"
 temp_dir: /tmp/readyup
 cargo_bin_dir: "{{ home_dir }}/.cargo/bin/"
 
 hack_url: "https://github.com/source-foundry/Hack/releases/download/v3.003/Hack-v3.003-ttf.zip"
-go_url: "https://dl.google.com/go/go1.11.1.linux-amd64.tar.gz"
+go_url: "https://dl.google.com/go/go1.11.2.linux-amd64.tar.gz"

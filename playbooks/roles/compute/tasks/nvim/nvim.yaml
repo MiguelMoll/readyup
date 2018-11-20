@@ -1,20 +1,6 @@
 ---
 
-- name: nvim | install deps
-  package:
-    name: "{{ item }}"
-    state: present
-  with_items:
-    - ninja-build
-    - libtool
-    - autoconf
-    - automake
-    - cmake
-    - gcc
-    - gcc-c++
-    - make
-    - pkgconfig
-    - unzip
+- import_tasks: nvim/deps.yaml
 
 - name: nvim | download source
   git:
