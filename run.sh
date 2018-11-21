@@ -6,9 +6,9 @@ if [ -f /etc/os-release ]; then
     VER=$VERSION
 fi
 
+echo "Setting up $PRETTY_NAME"
 case $OS in
-	Ubuntu)
-		echo "Setting up Ubuntu $VER"
+	Ubuntu|"Pop!_OS")
 		sudo apt update && sudo apt install -y ansible
 		;;
 	*)
