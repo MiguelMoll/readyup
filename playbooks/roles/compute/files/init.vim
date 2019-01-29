@@ -45,6 +45,10 @@ nnoremap <Leader>a :wa<CR>
 " Toggle line numbers.
 nnoremap <F3> :set nonumber!<CR>
 
+" Disable built in help
+nmap <F1> <nop>
+imap <F1> <nop>
+
 " Back to the last active buffer
 nnoremap <BS> :b#<CR>
 nnoremap <Leader>1 :buffer 1<CR>
