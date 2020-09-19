@@ -2,9 +2,11 @@ call plug#begin('~/.local/share/nvim/plugged')
 
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries', 'for': 'go' }
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins','for': 'go'}
-Plug 'zchee/deoplete-go', { 'do': 'make', 'for': 'go'}
+Plug 'joereynolds/vim-minisnip'
+"Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins','for': 'go'}
+"Plug 'zchee/deoplete-go', { 'do': 'make', 'for': 'go'}
 Plug 'crusoexia/vim-monokai'
+Plug 'cocopon/iceberg.vim'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'vim-airline/vim-airline'
@@ -12,6 +14,7 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'jiangmiao/auto-pairs'
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
+Plug 'simnalamburt/vim-mundo'
 Plug 'rust-lang/rust.vim', { 'for': 'rust' }
 Plug 'vim-syntastic/syntastic', { 'for': 'rust' }
 Plug 'racer-rust/vim-racer', { 'for': 'rust' }
@@ -21,6 +24,7 @@ call plug#end()
 set nocompatible
 syntax on
 colorscheme monokai
+"colorscheme iceberg
 "set t_Co=256
 set termguicolors
 set cursorline
@@ -32,7 +36,8 @@ set hlsearch
 set nofoldenable
 set noswapfile
 set number
-set relativenumber
+set hidden
+"set relativenumber
 set completeopt-=preview
 set clipboard+=unnamedplus
 set wildignore+=*/.git/*
@@ -49,8 +54,16 @@ nnoremap <F3> :set nonumber!<CR>
 nmap <F1> <nop>
 imap <F1> <nop>
 
+" Persistent undo
+nnoremap <F5> :MundoToggle<CR>
+set undofile
+set undodir=$HOME/.config/nvim/undo
+
+set undolevels=1000
+set undoreload=10000
+
 " Back to the last active buffer
-nnoremap <BS> :b#<CR>
+nnoremap <BS> :bp<CR>
 nnoremap <Leader>1 :buffer 1<CR>
 nnoremap <Leader>2 :buffer 2<CR>
 nnoremap <Leader>3 :buffer 3<CR>
@@ -73,10 +86,10 @@ nmap <Leader>- :new<CR>
 inoremap <C-Space> <c-x><c-o>
 
 " Easier split navigation
-nnoremap <silent> <A-h> :TmuxNavigateLeft<cr>
-nnoremap <silent> <A-j> :TmuxNavigateDown<cr>
-nnoremap <silent> <A-k> :TmuxNavigateUp<cr>
-nnoremap <silent> <A-l> :TmuxNavigateRight<cr>
+"nnoremap <silent> <A-h> :TmuxNavigateLeft<cr>
+"nnoremap <silent> <A-j> :TmuxNavigateDown<cr>
+"nnoremap <silent> <A-k> :TmuxNavigateUp<cr>
+"nnoremap <silent> <A-l> :TmuxNavigateRight<cr>
 
 " Keep search matches in the middle of the window.
 nnoremap n nzzzv
@@ -86,12 +99,12 @@ nnoremap N Nzzzv
 noremap <silent> <leader>, :noh<cr>:call clearmatches()<cr>
 
 " Save when losing focus
-au BufLeave * wa
+"au BufLeave * wa
 
 " deoplete
-let g:deoplete#enable_at_startup = 1
-let g:deoplete#sources#go#sort_class = ['package', 'func', 'type', 'var', 'const']
-" let g:deoplete#sources#go#source_importer = 1
+"let g:deoplete#enable_at_startup = 1
+"let g:deoplete#sources#go#sort_class = ['package', 'func', 'type', 'var', 'const']
+"let g:deoplete#sources#go#source_importer = 1
 
 " NERDTree
 map <F2> :NERDTreeToggle<CR>
@@ -121,7 +134,11 @@ let g:go_highlight_operators = 1
 let g:go_highlight_build_constraints = 1
 let g:go_fmt_command = "goimports"
 let g:go_auto_type_info = 1
-let g:go_auto_sameids = 1
+" let g:go_auto_sameids = 1
+let g:go_def_mode='gopls'
+let g:go_info_mode='gopls'
+let g:go_rename_command='gopls'
+let g:go_snippet_engine='minisnip'
 
 " rust
 let g:rustfmt_autosave = 1
