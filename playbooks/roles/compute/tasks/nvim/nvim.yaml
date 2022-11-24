@@ -6,20 +6,27 @@
   git:
     repo: 'https://github.com/neovim/neovim.git'
     dest: "{{ home_dir }}/code/neovim"
-  become: "{{ user }}"
+  become_user: "{{ user }}"
+
+- name: nvim | setting owner to "{{ user }}"
+  file:
+    path: "{{ home_dir }}/code/neovim"
+    state: directory
+    recurse: yes
+    owner: "{{ user }}"
 
 - name: nvim | build neovim
   command: make CMAKE_BUILD_TYPE=Release
   args:
     chdir: "{{ home_dir }}/code/neovim"
-  become: "{{ user }}"
+  become_user: "{{ user }}"
 
 - name: nvim | install neovim
   command: make install
   args:
     chdir: "{{ home_dir }}/code/neovim"
 
-- name: nvim | install pip3 neovim
+- name: nvim | install pip3 pynvim
   pip:
     name: neovim
     executable: pip3
@@ -31,24 +38,24 @@
   with_items:
     - "{{ home_dir }}/.local/share/nvim/site/autoload"
     - "{{ home_dir }}/.config/nvim"
-  become: "{{ user }}"
+  become_user: "{{ user }}"
 
 - name: nvim | download vim-plug
   get_url:
     url: https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     dest: "{{ home_dir }}/.local/share/nvim/site/autoload/plug.vim"
     mode: 0644
-  become: "{{ user }}"
+  become_user: "{{ user }}"
 
 - name: nvim | copy config
   copy:
     src: roles/compute/files/init.vim
     dest: "{{ home_dir }}/.config/nvim/init.vim"
-  become: "{{ user }}"
+  become_user: "{{ user }}"
 
 - name: nvim | install plugins
   command: "nvim {{ item }} +qall"
   with_items:
     - "+PlugInstall"
     - "+UpdateRemotePlugins"
-  become: "{{ user }}"
+  become_user: "{{ user }}"

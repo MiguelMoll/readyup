@@ -1,25 +1,25 @@
 ---
 
-- name: gnome | key shortcuts
-  dconf:
-    key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/{{ item.name }}/{{ item.type }}"
-    state: present
-    value: "{{ item.value }}"
-  with_items:
-    - {name: 'custom0', type: 'command', value: "'/usr/bin/gnome-terminal'"}
-    - {name: 'custom0', type: 'name', value: "'Terminal'"}
-    - {name: 'custom0', type: 'binding', value: "'<Super>T'"}
-    - {name: 'custom1', type: 'command', value: "'/usr/bin/nautilus'"}
-    - {name: 'custom1', type: 'name', value: "'Files'"}
-    - {name: 'custom1', type: 'binding', value: "'<Super>F'"}
-  become: "{{ user }}"
-
-- name: gnome | set bindings
-  dconf:
-    key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings"
-    value: "['/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/']"
-    state: present
-  become: "{{ user }}"
+#- name: gnome | key shortcuts
+#  dconf:
+#    key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/{{ item.name }}/{{ item.type }}"
+#    state: present
+#    value: "{{ item.value }}"
+#  with_items:
+#    - {name: 'custom0', type: 'command', value: "'/usr/bin/gnome-terminal'"}
+#    - {name: 'custom0', type: 'name', value: "'Terminal'"}
+#    - {name: 'custom0', type: 'binding', value: "'<Super>T'"}
+#    - {name: 'custom1', type: 'command', value: "'/usr/bin/nautilus'"}
+#    - {name: 'custom1', type: 'name', value: "'Files'"}
+#    - {name: 'custom1', type: 'binding', value: "'<Super>F'"}
+#  become: "{{ user }}"
+#
+#- name: gnome | set bindings
+#  dconf:
+#    key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings"
+#    value: "['/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/']"
+#    state: present
+#  become: "{{ user }}"
 
 - name: gnome | tmp term prefs
   copy:
@@ -28,21 +28,21 @@
 
 - name: gnome | load term prefs
   shell: "dconf load /org/gnome/terminal/legacy/profiles:/:e0b281e6-3542-4143-9131-b78559cdaf68/ < {{ temp_dir }}/terminal-profile.dconf"
-  become: "{{ user }}"
+  become_user: "{{ user }}"
 
 - name: gnome | default term prefs
   dconf:
     key: "/org/gnome/terminal/legacy/profiles:/default"
     value: "'e0b281e6-3542-4143-9131-b78559cdaf68'"
     state: present
-  become: "{{ user }}"
+  become_user: "{{ user }}"
 
 - name: gnome | list term prefs
   dconf:
     key: "/org/gnome/terminal/legacy/profiles:/list"
     value: "['e0b281e6-3542-4143-9131-b78559cdaf68']"
     state: present
-  become: "{{ user }}"
+  become_user: "{{ user }}"
 
 - name: gnome | install!
   package:

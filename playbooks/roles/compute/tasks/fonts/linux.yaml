@@ -1,0 +1,31 @@
+---
+- name: fonts | create .fonts dir
+  file: 
+    path: "{{ home_dir }}/.fonts"
+    state: directory
+  become_user: "{{ user }}"
+
+- name: fonts | create temp dir
+  file: 
+    path: "{{ temp_dir }}/fonts"
+    state: directory
+  become_user: "{{ user }}"
+
+- name: fonts | download
+  unarchive:
+    src: "{{ item }}"
+    dest: "{{ temp_dir }}/fonts"
+    remote_src: yes
+  with_items:
+    - "{{ sauce_code_pro_url }}"
+
+- name: fonts | copy to .fonts
+  copy: 
+    src: "{{ item }}"
+    dest: "{{ home_dir }}/.fonts/"
+  become_user: "{{ user }}"
+  with_fileglob: 
+    - "{{ temp_dir }}/fonts/*.ttf"
+
+- name: fonts | update cache
+  command: /usr/bin/fc-cache

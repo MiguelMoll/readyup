@@ -8,20 +8,27 @@
     - "{{ temp_dir }}"
     - "{{ home_dir }}/code"
     - "{{ home_dir}}/.config/fish"
-  become: "{{ user }}"
+    - "{{ home_dir}}/.config/fish/functions"
+  become_user: "{{ user }}"
+
+- set_fact:
+    distro_software: "{{ debian_software }}"
+  when: ansible_os_family == "Debian"
 
 - name: software | install!
   package:
     name: "{{ item }}"
     state: present
-  with_items: "{{ common_software }} + {{ ansible_os_family | lower }}_software"
+  with_items: 
+    - "{{ common_software }}"
+    - "{{ distro_software }}"
 
 - import_tasks: "redhat.yaml"
   when: ansible_os_family == "Redhat"
 
 - include_tasks: "{{ item }}"
   with_items:
-    - hackfont/linux.yaml
+    - fonts/linux.yaml
     - vscode/vscode.yaml
     - gnome.yaml
     - nvim/nvim.yaml

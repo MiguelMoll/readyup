@@ -4,10 +4,10 @@
   git:
     repo: https://github.com/tmux-plugins/tpm 
     dest: "{{ home_dir }}/.tmux/plugins/tpm"
-  become: "{{ user }}"
+  become_user: "{{ user }}"
 
 - name: tmux | setup tmux.conf
   copy:
     src: roles/compute/files/tmux.conf
     dest: "{{ home_dir }}/.tmux.conf"
-  become: "{{ user }}"
+  become_user: "{{ user }}"

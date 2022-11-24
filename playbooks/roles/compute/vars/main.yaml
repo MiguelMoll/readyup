@@ -7,7 +7,6 @@ common_software:
   - htop
   - nmon
   - tig
-  - ripgrep
   - fish
   - vlc
   - jq
@@ -16,7 +15,6 @@ common_software:
 
 gnome_software:
   - gnome-tweaks
-  - chrome-gnome-shell # for gnome extensions, dash-to-dock
 
 redhat_software:
   - python2-psutil # used for dconf
@@ -24,7 +22,7 @@ redhat_software:
   - zlib-devel
 
 debian_software:
-  - python-psutil # used for dconf
+  - python3-psutil # used for dconf
   - zlib1g-dev
   - build-essential
 
@@ -32,5 +30,6 @@ home_dir: "/home/{{ user }}"
 temp_dir: /tmp/readyup
 cargo_bin_dir: "{{ home_dir }}/.cargo/bin/"
 
+sauce_code_pro_url: "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.2.2/SourceCodePro.zip"
 hack_url: "https://github.com/source-foundry/Hack/releases/download/v3.003/Hack-v3.003-ttf.zip"
-go_url: "https://dl.google.com/go/go1.11.2.linux-amd64.tar.gz"
+go_url: "https://go.dev/dl/go1.19.3.linux-amd64.tar.gz"

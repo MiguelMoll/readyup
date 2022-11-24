@@ -5,18 +5,17 @@
     url: https://sh.rustup.rs
     dest: "{{ temp_dir }}/rustup.sh"
     mode: 0744
-  become: "{{ user }}"
+  become_user: "{{ user }}"
 
 - name: rust | install rustup
   shell: "{{ temp_dir }}/rustup.sh -y"
-  become: "{{ user }}"
+  become_user: "{{ user }}"
 
 - name: rust | install rust software
   shell: "{{ cargo_bin_dir }}/{{ item }}"
   with_items:
     - "rustup toolchain add nightly"
     - "rustup component add rust-src"
-    - "rustup component add rustfmt-preview"
-    - "cargo +nightly install racer"
     - "cargo install bat"
-  become: "{{ user }}"
+    - "cargo install ripgrep"
+  become_user: "{{ user }}"

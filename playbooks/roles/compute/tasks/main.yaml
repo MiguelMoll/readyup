@@ -15,38 +15,41 @@
   copy:
     src: roles/compute/files/config.fish
     dest: "{{ home_dir }}/.config/fish/config.fish"
-  become: "{{ user }}"
+  become_user: "{{ user }}"
 
-- name: fish | get omf
+- name: fish | copy update alias
+  copy:
+    src: roles/compute/files/update.fish
+    dest: "{{ home_dir }}/.config/fish/functions/update.fish"
+  become_user: "{{ user }}"
+
+- name: fish | download starship
   get_url:
-    url: https://raw.githubusercontent.com/oh-my-fish/oh-my-fish/master/bin/install
-    dest: "{{ temp_dir }}/omfinstall"
-    mode: 0755
+    url: https://starship.rs/install.sh
+    dest: "{{ temp_dir }}/starship.sh"
+    mode: 0744
+  become_user: "{{ user }}"
 
-- name: fish | install omf
-  command: "/usr/bin/fish {{ temp_dir }}/omfinstall --noninteractive --yes --path=~/.local/share/omf --config=~/.config/omf" 
-  become: "{{ user }}"
+- name: fish | install starship
+  shell: "{{ temp_dir }}/starship.sh -f"
+  args:
+    executable: /bin/bash
+  become_user: "{{ user }}"
 
-- name: fish | omf agnoster
-  shell: "{{ item }}"
-  with_items:
-    - '/usr/bin/fish -c "omf install agnoster"'
-    - '/usr/bin/fish -c "omf theme agnoster"'
-  become: "{{ user }}"
 
 # Go
 
 - name: go | install
   unarchive:
     src: "{{ go_url }}"
-    dest: /usr/local/bin
+    dest: /usr/local/
     remote_src: yes
   
 - name: go | create gopath
   file:
-    path: "{{ home_dir }}/code/go/bin"
+    path: "{{ home_dir }}/code/go"
     state: directory
-  become: "{{ user }}"
+  become_user: "{{ user }}"
   
 ## End Go
 
@@ -58,47 +61,47 @@
     name: user.email
     scope: global
     value: miguel.moll@gmail.com
-  become: "{{ user }}"
+  become_user: "{{ user }}"
   
 - name: git | name
   git_config:
     name: user.name
     scope: global
     value: Miguel Moll
-  become: "{{ user }}"
+  become_user: "{{ user }}"
 
 - name: git | editor
   git_config:
     name: core.editor
     scope: global
     value: nvim
-  become: "{{ user }}"
+  become_user: "{{ user }}"
   
-- name: download diff-so-fancy
-  get_url:
-    url: https://raw.githubusercontent.com/so-fancy/diff-so-fancy/master/third_party/build_fatpack/diff-so-fancy
-    dest: /usr/local/bin/diff-so-fancy
-    mode: 0755
-    owner: "{{ user }}"
-  
-- name: git | diff configs
-  git_config:
-    name: "{{ item.name }}"
-    scope: global
-    value: "{{ item.value }}"
-  become: "{{ user }}"
-  with_items:
-    - { name: 'core.pager', value: 'diff-so-fancy | less --tabs=4 -RFX' }
-    - { name: 'color.ui', value: 'true' }
-    - { name: 'color.diff-highlight.oldNormal', value: 'red bold' }
-    - { name: 'color.diff-highlight.oldHighlight', value: 'red bold 52' }
-    - { name: 'color.diff-highlight.newNormal', value: 'green bold' }
-    - { name: 'color.diff-highlight.newHighlight', value: 'green bold 22' }
-    - { name: 'color.diff.meta', value: 'yellow' }
-    - { name: 'color.diff.frag', value: 'magenta bold' }
-    - { name: 'color.diff.commit', value: 'yellow bold' }
-    - { name: 'color.diff.old', value: 'red bold' }
-    - { name: 'color.diff.new', value: 'green bold' }
-    - { name: 'color.diff.whitespace', value: 'red reverse' }
+    #- name: download diff-so-fancy
+    #  get_url:
+    #    url: https://raw.githubusercontent.com/so-fancy/diff-so-fancy/master/third_party/build_fatpack/diff-so-fancy
+    #    dest: /usr/local/bin/diff-so-fancy
+    #    mode: 0755
+    #    owner: "{{ user }}"
+    #  
+    #- name: git | diff configs
+    #  git_config:
+    #    name: "{{ item.name }}"
+    #    scope: global
+    #    value: "{{ item.value }}"
+    #  become: "{{ user }}"
+    #  with_items:
+    #    - { name: 'core.pager', value: 'diff-so-fancy | less --tabs=4 -RFX' }
+    #    - { name: 'color.ui', value: 'true' }
+    #    - { name: 'color.diff-highlight.oldNormal', value: 'red bold' }
+    #    - { name: 'color.diff-highlight.oldHighlight', value: 'red bold 52' }
+    #    - { name: 'color.diff-highlight.newNormal', value: 'green bold' }
+    #    - { name: 'color.diff-highlight.newHighlight', value: 'green bold 22' }
+    #    - { name: 'color.diff.meta', value: 'yellow' }
+    #    - { name: 'color.diff.frag', value: 'magenta bold' }
+    #    - { name: 'color.diff.commit', value: 'yellow bold' }
+    #    - { name: 'color.diff.old', value: 'red bold' }
+    #    - { name: 'color.diff.new', value: 'green bold' }
+    #    - { name: 'color.diff.whitespace', value: 'red reverse' }
   
 ## End Git
