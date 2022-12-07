@@ -47,8 +47,9 @@
   
 - name: go | create gopath
   file:
-    path: "{{ home_dir }}/code/go"
+    path: "{{ home_dir }}/code/go/bin"
     state: directory
+    recurse: true
   become_user: "{{ user }}"
   
 ## End Go

@@ -4,10 +4,11 @@
   file: 
     path: "{{ item }}"
     state: directory
+    recurse: true
   with_items:
     - "{{ temp_dir }}"
     - "{{ home_dir }}/code"
-    - "{{ home_dir}}/.config/fish"
+    - "{{ home_dir }}/.local/bin"
     - "{{ home_dir}}/.config/fish/functions"
   become_user: "{{ user }}"
 
@@ -22,6 +23,18 @@
   with_items: 
     - "{{ common_software }}"
     - "{{ distro_software }}"
+
+- name: software | find fzf release
+  uri:
+    url: https://api.github.com/repos/junegunn/fzf/releases/latest
+    return_content: true
+  register: fzf_json_response
+
+- name: software | install fzf
+  unarchive:
+    src: "{{ fzf_json_response.json.tarball_url }}"
+    dest: "{{ home_dir }}/.local/bin"
+    remote_src: yes
 
 - import_tasks: "redhat.yaml"
   when: ansible_os_family == "Redhat"

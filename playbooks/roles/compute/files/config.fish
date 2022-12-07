@@ -2,6 +2,8 @@ set -U fish_greeting
 
 # env vars
 set -x GOPATH $HOME/code/go
+set -x FZF_DEFAULT_OPTS "--preview 'bat --color=always {}'"
+set -x FZF_DEFAULT_COMMAND "fd --type f"
 
 
 # updating $PATH

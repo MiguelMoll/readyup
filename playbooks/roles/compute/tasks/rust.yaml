@@ -18,4 +18,5 @@
     - "rustup component add rust-src"
     - "cargo install bat"
     - "cargo install ripgrep"
+    - "cargo install fd-find"
   become_user: "{{ user }}"
