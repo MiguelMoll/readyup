@@ -28,13 +28,15 @@
   uri:
     url: https://api.github.com/repos/junegunn/fzf/releases/latest
     return_content: true
+    body_format: json
   register: fzf_json_response
 
 - name: software | install fzf
   unarchive:
-    src: "https://github.com/junegunn/fzf/releases/download/v{{ fzf_json_response.tag_name }}/fzf-{{ fzf_json_response.tag_name }}.linux_amd64.tar.gz"
+    src: "https://github.com/junegunn/fzf/releases/download/{{ fzf_json_response.json.tag_name }}/fzf-{{ fzf_json_response.json.tag_name }}-linux_amd64.tar.gz"
     dest: "{{ home_dir }}/.local/bin"
     remote_src: yes
+  become_user: "{{ user }}"
 
 - import_tasks: "redhat.yaml"
   when: ansible_os_family == "Redhat"

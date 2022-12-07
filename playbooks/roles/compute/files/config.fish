@@ -9,6 +9,7 @@ set -x FZF_DEFAULT_COMMAND "fd --type f"
 # updating $PATH
 fish_add_path $GOPATH/bin
 fish_add_path $HOME/.cargo/bin
+fish_add_path $HOME/.local/bin
 fish_add_path /usr/local/go/bin
 
 
