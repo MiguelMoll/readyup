@@ -32,7 +32,7 @@
 
 - name: software | install fzf
   unarchive:
-    src: "{{ fzf_json_response.json.tarball_url }}"
+    src: "https://github.com/junegunn/fzf/releases/download/v{{ fzf_json_response.tag_name }}/fzf-{{ fzf_json_response.tag_name }}.linux_amd64.tar.gz"
     dest: "{{ home_dir }}/.local/bin"
     remote_src: yes
 
