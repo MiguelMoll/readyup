@@ -6,6 +6,7 @@
   git:
     repo: 'https://github.com/neovim/neovim.git'
     dest: "{{ home_dir }}/code/neovim"
+    force: true
   become_user: "{{ user }}"
 
 - name: nvim | setting owner to "{{ user }}"
